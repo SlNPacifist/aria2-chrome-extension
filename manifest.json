@@ -1,0 +1,11 @@
+{
+  "manifest_version": 2,
+  "name": "Aria2 integration",
+  "version": "0.0.1",
+
+  "description": "This extension allows you to manage your aria2 downloads",
+
+  "author": "Slava Baginov <slnpacifist@gmail.com>",
+  "options_page": "webui-aria2/index.html",
+  "permissions": []
+}
