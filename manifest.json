@@ -4,8 +4,11 @@
   "version": "0.0.1",
 
   "description": "This extension allows you to manage your aria2 downloads",
+  "browser_action": {
+    "default_title": "Aria2 integration",
+    "default_popup": "popup.html"
+  },
 
   "author": "Slava Baginov <slnpacifist@gmail.com>",
-  "options_page": "webui-aria2/index.html",
   "permissions": []
 }
