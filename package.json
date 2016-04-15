@@ -1,0 +1,27 @@
+{
+  "name": "aria2-chrome-extension",
+  "version": "0.0.1",
+  "description": "Chrome extension for managing Aria2 downloads",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SlNPacifist/aria2-chrome-extension.git"
+  },
+  "keywords": [
+    "aria2",
+    "chrome",
+    "extension"
+  ],
+  "author": "Slava Baginov <slnpacifist@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SlNPacifist/aria2-chrome-extension/issues"
+  },
+  "homepage": "https://github.com/SlNPacifist/aria2-chrome-extension#readme",
+  "dependencies": {
+    "aria2-client": "git+https://github.com/SlNPacifist/aria2-rpc-client.git"
+  }
+}
