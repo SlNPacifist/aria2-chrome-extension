@@ -23,5 +23,9 @@
   "homepage": "https://github.com/SlNPacifist/aria2-chrome-extension#readme",
   "dependencies": {
     "aria2-client": "git+https://github.com/SlNPacifist/aria2-rpc-client.git"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-sync": "^0.5.2"
   }
 }
