@@ -1,4 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+window.AriaLib = require('aria2-client');
+},{"aria2-client":3}],2:[function(require,module,exports){
 var JsonRpcClient = require('./json_rpc_client')
 var util = require('util');
 
@@ -102,7 +104,7 @@ AriaClient.prototype._throttleRequest = function throttleRequest(name, params, c
 }
 
 module.exports = AriaClient;
-},{"./json_rpc_client":3,"util":26}],2:[function(require,module,exports){
+},{"./json_rpc_client":4,"util":26}],3:[function(require,module,exports){
 module.exports = {
   JsonRpcClient: require('./json_rpc_client'),
   AriaClient: require('./aria_client'),
@@ -112,7 +114,7 @@ module.exports = {
     Websocket: require('./transport/websocket')
   }
 }
-},{"./aria_client":1,"./json_rpc_client":3,"./transport/jsonp":5,"./transport/websocket":7,"./transport/xhr":8}],3:[function(require,module,exports){
+},{"./aria_client":2,"./json_rpc_client":4,"./transport/jsonp":6,"./transport/websocket":8,"./transport/xhr":9}],4:[function(require,module,exports){
 var serializer = require('jsonrpc-serializer');
 var util = require('util');
 
@@ -167,7 +169,7 @@ JsonRpcClient.prototype._processMessage = function processMessage(message) {
 }
 
 module.exports = JsonRpcClient;
-},{"jsonrpc-serializer":11,"util":26}],4:[function(require,module,exports){
+},{"jsonrpc-serializer":12,"util":26}],5:[function(require,module,exports){
 function BaseTransport() {
   this._listeners = [];
   this._processMessage = this._processMessage.bind(this);
@@ -184,7 +186,7 @@ BaseTransport.prototype._processMessage = function processMessage(message) {
 }
 
 module.exports = BaseTransport;
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 var util = require('util');
 var BaseTransport = require('./base');
 var URL = require('url');
@@ -224,7 +226,7 @@ function createScript(src) {
 }
 
 module.exports = JsonpTransport;
-},{"./base":4,"./util":6,"url":23,"util":26}],6:[function(require,module,exports){
+},{"./base":5,"./util":7,"url":23,"util":26}],7:[function(require,module,exports){
 var base64 = require('js-base64').Base64;
 
 function formatMessageForAriaUrl(message) {
@@ -242,7 +244,7 @@ function formatMessageForAriaUrl(message) {
 module.exports = {
   formatMessageForAriaUrl: formatMessageForAriaUrl
 }
-},{"js-base64":9}],7:[function(require,module,exports){
+},{"js-base64":10}],8:[function(require,module,exports){
 var util = require('util');
 var BaseTransport = require('./base');
 
@@ -283,7 +285,7 @@ WebsocketTransport.fromUrl = function fromUrl(url, callback) {
 }
 
 module.exports = WebsocketTransport;
-},{"./base":4,"util":26}],8:[function(require,module,exports){
+},{"./base":5,"util":26}],9:[function(require,module,exports){
 var util = require('util');
 var BaseTransport = require('./base');
 var URL = require('url');
@@ -314,7 +316,7 @@ XhrTransport.prototype.send = function(message) {
 }
 
 module.exports = XhrTransport;
-},{"./base":4,"./util":6,"url":23,"util":26}],9:[function(require,module,exports){
+},{"./base":5,"./util":7,"url":23,"util":26}],10:[function(require,module,exports){
 /*
  * $Id: base64.js,v 2.15 2014/04/05 12:58:57 dankogai Exp dankogai $
  *
@@ -510,7 +512,7 @@ module.exports = XhrTransport;
     }
 })(this);
 
-},{"buffer":14}],10:[function(require,module,exports){
+},{"buffer":14}],11:[function(require,module,exports){
 (function () { 'use strict';
 
 var util, JsonRpcError, ParseError, InvalidRequestError, MethodNotFoundError, InvalidParamsError;
@@ -579,7 +581,7 @@ module.exports = {
 
 })();
 
-},{"util":26}],11:[function(require,module,exports){
+},{"util":26}],12:[function(require,module,exports){
 (function () { 'use strict';
 
 var exception, jsonrpc, util;
@@ -1097,18 +1099,7 @@ module.exports = jsonrpc = {
     
 })();
 
-},{"./exceptions":10,"util":26}],12:[function(require,module,exports){
-var AriaLib = require('aria2-client');
-AriaLib.transport.Websocket.fromUrl('ws://192.168.0.103:6800/jsonrpc', function(err, transport) {
-  if (err) {
-    return console.error("Could not create transport", err);
-  }
-  var client = new AriaLib.AriaClient(transport);
-  client.aria2.getVersion(function(err, res) {
-    document.getElementById('list-container').innerHTML = JSON.stringify(err || res);
-  });
-});
-},{"aria2-client":2}],13:[function(require,module,exports){
+},{"./exceptions":11,"util":26}],13:[function(require,module,exports){
 'use strict'
 
 exports.toByteArray = toByteArray
@@ -4955,4 +4946,4 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":25,"_process":18,"inherits":17}]},{},[12]);
+},{"./support/isBuffer":25,"_process":18,"inherits":17}]},{},[1]);

@@ -1,9 +1,16 @@
-<html>
+<html ng-app="PopupApp">
   <head>
-    <script src="popup-compiled.js"></script>
+    <script src="/libs/angular.min.js"></script>
+    <script src="/common/options.js"></script>
+    <script src="/services/options.js"></script>
+    <script src="/common/aria_client.js"></script>
+    <script src="/services/aria_client.js"></script>
+    <script src="/common/client_creator.js"></script>
+    <script src="/services/client_creator.js"></script>
+    <script src="app.js"></script>
   </head>
-  <body>
-    <div id="list-container"></div>
+  <body ng-controller="PopupController">
+    <div>{{info}}</div>
     <a target="_blank" href="/webui-aria2/index.html">Downloads</a>
   </body>
 </html>

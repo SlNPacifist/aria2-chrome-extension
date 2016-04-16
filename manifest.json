@@ -9,6 +9,20 @@
     "default_popup": "popup/popup.html"
   },
 
+  "options_ui": {
+    "page": "options/options.html",
+    "chrome_style": true
+  },
+
+  "background": {
+    "scripts": [
+      "/common/aria_client.js",
+      "/common/client_creator.js",
+      "/common/options.js",
+      "/context_menu/context_menu.js"
+    ]
+  },
+
   "author": "Slava Baginov <slnpacifist@gmail.com>",
-  "permissions": []
+  "permissions": ["contextMenus"]
 }

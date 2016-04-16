@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html ng-app="OptionsApp">
+<head>
+  <title>Connection settings</title>
+  <script src="/libs/angular.min.js"></script>
+  <script src="/common/options.js"></script>
+  <script src="/services/options.js"></script>
+  <script src="app.js"></script>
+  <link rel="stylesheet" href="options.css">
+</head>
+
+<body ng-controller="OptionsController">
+  <form>
+    <table>
+      <tr>
+        <td class="option-name"><label for="host">Host</label></td>
+        <td><input type="text" id="host" ng-model="options.host"></td>
+      </tr>
+      <tr>
+        <td class="option-name"><label for="port">Port</label></td>
+        <td><input type="text" id="port" ng-model="options.port"></td>
+      </tr>
+      <tr>
+        <td class="option-name"><label for="encryption">Force encryption</label></td>
+        <td><input type="checkbox" id="encryption" ng-model="options.encryption"></td>
+      </tr>
+      <tr>
+        <td class="option-name"><label for="token">Secret token</label></td>
+        <td><input type="text" id="token" ng-model="options.token"></td>
+      </tr>
+      <tr>
+        <td class="option-name"><label for="username">Username</label></td>
+        <td><input type="text" id="username" ng-model="options.username"></td>
+      </tr>
+      <tr>
+        <td class="option-name"><label for="password">Password</label></td>
+        <td><input type="text" id="password" ng-model="options.password"></td>
+      </tr>
+    </table>
+  </form>
+</body>
+</html>

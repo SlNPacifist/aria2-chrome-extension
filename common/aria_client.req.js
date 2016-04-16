@@ -1,0 +1,1 @@
+window.AriaLib = require('aria2-client');
