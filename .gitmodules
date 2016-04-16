@@ -1,3 +1,3 @@
-[submodule "webui-aria2"]
-	path = webui-aria2
+[submodule "src/webui-aria2"]
+	path = src/webui-aria2
 	url = git@github.com:SlNPacifist/webui-aria2.git
