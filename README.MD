@@ -12,3 +12,7 @@ Point to srd folder within this project. New extension will be added. Press exte
 `Downloads` link.
 
 If extension cannot connect, try entering connections settings.
+
+## Developer documentation
+
+See [github pages](https://slnpacifist.github.io/aria2-chrome-extension/) of this project for developer documentation.
