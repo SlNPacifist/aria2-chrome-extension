@@ -15,4 +15,4 @@ If extension cannot connect, try entering connections settings.
 
 ## Developer documentation
 
-See [github pages](https://slnpacifist.github.io/aria2-chrome-extension/) of this project for developer documentation.
+See [wiki pages](https://github.com/SlNPacifist/aria2-chrome-extension/wiki) of this project for developer documentation.
