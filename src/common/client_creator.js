@@ -81,8 +81,8 @@
 
   clientCallbacks = [];
   function whenClientReady(callback) {
-    if (ClientCreator.currentClient) {
-      return callback(ClientCreator.currentClient);
+    if (ClientCreator.current) {
+      return callback(ClientCreator.current);
     } else {
       clientCallbacks.push(callback);
     }
@@ -109,7 +109,7 @@
   var ClientCreator = {
     fromOptions: fromOptions,
     whenClientReady: whenClientReady,
-    currentClient: null
+    current: null
   };
   window.ClientCreator = ClientCreator;
 })();

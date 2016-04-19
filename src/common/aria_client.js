@@ -21,10 +21,10 @@ function createCallSynonym(requestName, checkThrottling) {
     for (var i = 0; i < arguments.length - 1; i++) {
       params.push(arguments[i]);
     }
-    if (checkThrottling && this._throttlingTimeout) {
-      this._throttleRequest(requestName, params, callback);
-    } else {
+    if (!checkThrottling) {
       this.jsonRpcClient.request(requestName, params, callback);
+    } else {
+      this.call(requestName, params, callback);
     }
   }
 }
@@ -110,6 +110,14 @@ AriaClient.prototype.cancelAllRequests = function cancelAllRequests() {
     });
   }
   this._throttledRequests = [];
+}
+
+AriaClient.prototype.call = function call(requestName, params, callback) {
+  if (this._throttlingTimeout) {
+    this._throttleRequest(requestName, params, callback);
+  } else {
+    this.jsonRpcClient.request(requestName, params, callback);
+  }
 }
 
 module.exports = AriaClient;
