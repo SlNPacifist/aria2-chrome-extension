@@ -3,22 +3,33 @@
 <head>
   <title>Connection settings</title>
   <script src="/libs/angular.js"></script>
+  <script src="/libs/async.js"></script>
+  <script src="/services/async.js"></script>
   <script src="/common/options.js"></script>
   <script src="/services/options.js"></script>
+  <script src="/common/aria_client.js"></script>
+  <script src="/services/aria_client.js"></script>
+  <script src="/common/client_creator.js"></script>
+  <script src="/services/client_creator.js"></script>
   <script src="app.js"></script>
   <link rel="stylesheet" href="options.css">
 </head>
 
 <body ng-controller="OptionsController">
   <form>
+    <div>
+      <p ng-show="state=='connecting'">Trying connection options...</p>
+      <p ng-show="state=='connected'">Successfully connected</p>
+      <p ng-show="state=='error'">Could not connect using provided options</p>
+    </div>
     <table>
       <tr>
         <td class="option-name"><label for="host">Host</label></td>
-        <td><input type="text" id="host" ng-model="options.host"></td>
+        <td><input type="text" id="host" ng-model="options.host" ng-model-options="{debounce: 500}"></td>
       </tr>
       <tr>
         <td class="option-name"><label for="port">Port</label></td>
-        <td><input type="text" id="port" ng-model="options.port"></td>
+        <td><input type="text" id="port" ng-model="options.port" ng-model-options="{debounce: 500}"></td>
       </tr>
       <tr>
         <td class="option-name"><label for="encryption">Force encryption</label></td>
@@ -26,15 +37,15 @@
       </tr>
       <tr>
         <td class="option-name"><label for="token">Secret token</label></td>
-        <td><input type="text" id="token" ng-model="options.token"></td>
+        <td><input type="text" id="token" ng-model="options.token" ng-model-options="{debounce: 500}"></td>
       </tr>
       <tr>
         <td class="option-name"><label for="username">Username</label></td>
-        <td><input type="text" id="username" ng-model="options.username"></td>
+        <td><input type="text" id="username" ng-model="options.username" ng-model-options="{debounce: 500}"></td>
       </tr>
       <tr>
         <td class="option-name"><label for="password">Password</label></td>
-        <td><input type="text" id="password" ng-model="options.password"></td>
+        <td><input type="text" id="password" ng-model="options.password" ng-model-options="{debounce: 500}"></td>
       </tr>
     </table>
   </form>

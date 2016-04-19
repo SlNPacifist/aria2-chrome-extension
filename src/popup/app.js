@@ -1,15 +1,9 @@
 angular
-  .module('PopupApp', ['options', 'AriaLib', 'ClientCreator'])
-  .controller('PopupController', ['$scope', 'options', 'AriaLib', 'ClientCreator',
-  function ($scope, options, AriaLib, ClientCreator) {
+  .module('PopupApp', ['ClientCreator'])
+  .controller('PopupController', ['$scope', 'ClientCreator',
+  function ($scope, ClientCreator) {
     $scope.info = "Connecting";
-    ClientCreator.fromOptions(options.get(), function(err, client) {
-      if (err) {
-        $scope.$apply(function() {
-          $scope.info = "Could not connect";
-        });
-        return;
-      }
+    ClientCreator.whenClientReady(function(client) {
       client.aria2.getVersion(function(err, res) {
         $scope.$apply(function() {
           $scope.info = err || res;

@@ -1,13 +1,11 @@
 function download(target, tab) {
-  ClientCreator.fromOptions(Options.get(), function(err, client) {
-    if (err) {
-      return console.error(err);
-    }
-
-    client.aria2.addUri([target.linkUrl || srcUrl], function(err, res) {
+  if (ClientCreator.current) {
+    ClientCreator.current.aria2.addUri([target.linkUrl || srcUrl], function(err, res) {
       console.log("Result of addUri", err, res);
     });
-  });
+  } else {
+    console.log("No connection available");
+  }
 }
 
 var downloadedUrl;

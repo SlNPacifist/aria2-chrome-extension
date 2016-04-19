@@ -10,8 +10,8 @@
     localStorage['options'] = JSON.stringify(options);
   }
   var res = {
-    get: get.bind(res),
-    set: set.bind(res)
+    get: get,
+    set: set
   };
   window.Options = res;
 })();
