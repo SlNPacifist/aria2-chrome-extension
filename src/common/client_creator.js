@@ -79,37 +79,13 @@
     });
   }
 
-  clientCallbacks = [];
-  function whenClientReady(callback) {
-    if (ClientCreator.current) {
-      return callback(ClientCreator.current);
-    } else {
-      clientCallbacks.push(callback);
-    }
+  function fromCurrentOptions(callback) {
+    fromOptions(Options.get(), callback);
   }
-
-  var clientCreateTimeout = 10000;
-  function createCurrentClient() {
-    fromOptions(Options.get(), function(transport) {
-      if (transport) {
-        ClientCreator.current = new AriaLib.AriaClient(transport);
-        transport.on('error', function() {
-          ClientCreator.current = null;
-          createCurrentClient();
-        });
-        clientCallbacks.forEach(function(callback) {callback(ClientCreator.current)});
-        clientCallbacks = [];
-      } else {
-        window.setTimeout(createCurrentClient, clientCreateTimeout);
-      }
-    });
-  }
-  createCurrentClient();
 
   var ClientCreator = {
     fromOptions: fromOptions,
-    whenClientReady: whenClientReady,
-    current: null
+    fromCurrentOptions: fromCurrentOptions
   };
   window.ClientCreator = ClientCreator;
 })();
