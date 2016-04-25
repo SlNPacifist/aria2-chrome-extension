@@ -1,4 +1,4 @@
-(function() {
+window.TransportCreator = (function() {
   /**
    * Creates appropriate Aria2 client connection from options.
    */
@@ -83,9 +83,8 @@
     fromOptions(Options.get(), callback);
   }
 
-  var ClientCreator = {
+  return {
     fromOptions: fromOptions,
     fromCurrentOptions: fromCurrentOptions
   };
-  window.ClientCreator = ClientCreator;
 })();

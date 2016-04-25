@@ -19,11 +19,14 @@
       "/libs/async.js",
       "/common/options.js",
       "/common/aria_client.js",
-      "/common/client_creator.js",
+      "/common/transport_creator.js",
+      "/common/connection.js",
+      "/common/single_call.js",
+      "/common/notification.js",
       "/context_menu/context_menu.js"
     ]
   },
 
   "author": "Slava Baginov <slnpacifist@gmail.com>",
-  "permissions": ["contextMenus", "tabs"]
+  "permissions": ["contextMenus", "tabs", "notifications"]
 }

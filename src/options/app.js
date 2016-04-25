@@ -1,12 +1,13 @@
 angular
-  .module('OptionsApp', ['options', 'ClientCreator'])
-  .controller('OptionsController', ['$scope', 'options', function ($scope, options) {
+  .module('OptionsApp', ['external'])
+  .controller('OptionsController', ['$scope', 'options', 'TransportCreator',
+  function ($scope, options, TransportCreator) {
     var curCheckId = 0;
     function checkOptions() {
       $scope.state = 'connecting';
       curCheckId += 1;
       var checkId = curCheckId;
-      ClientCreator.fromOptions($scope.options, function(transport) {
+      TransportCreator.fromOptions($scope.options, function(transport) {
         if (checkId != curCheckId) {
           console.log("Too late");
           return;

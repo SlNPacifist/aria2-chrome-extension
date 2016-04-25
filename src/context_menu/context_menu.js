@@ -1,11 +1,10 @@
 function download(target, tab) {
-  if (ClientCreator.current) {
-    ClientCreator.current.aria2.addUri([target.linkUrl || srcUrl], function(err, res) {
-      console.log("Result of addUri", err, res);
-    });
-  } else {
-    console.log("No connection available");
-  }
+  SingleCallService.aria2.addUri([target.linkUrl || srcUrl], function(err, res) {
+    if (err) {
+      return Notification.showRpcError("Could not add download", err);
+    }
+    console.log("Result of addUri", err, res);
+  });
 }
 
 var downloadedUrl;

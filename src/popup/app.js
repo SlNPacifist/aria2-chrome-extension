@@ -1,13 +1,12 @@
 angular
-  .module('PopupApp', ['ClientCreator'])
-  .controller('PopupController', ['$scope', 'ClientCreator',
-  function ($scope, ClientCreator) {
+  .module('PopupApp', ['external'])
+  .controller('PopupController', ['$scope', 'SubscriptionService',
+  function ($scope, SubscriptionService) {
     $scope.info = "Connecting";
-    ClientCreator.fromCurrentOptions(function(client) {
-      client.aria2.getVersion(function(err, res) {
-        $scope.$apply(function() {
-          $scope.info = err || res;
-        });
+    SubscriptionService.subscribe('aria2.getVersion', [], function(err, res) {
+      $scope.$apply(function() {
+        console.log("Updating version");
+        $scope.info = err || res;
       });
     });
   }]);
