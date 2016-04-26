@@ -3,7 +3,7 @@ angular
   .controller('PopupController', ['$scope', 'client',
   function ($scope, client) {
     $scope.info = "Connecting";
-    client.subscribe('aria2.getVersion', [], function(err, res) {
+    client.subscribe.aria2.getVersion(function(err, res) {
       $scope.$apply(function() {
         console.log("Updating version");
         $scope.info = err || res;

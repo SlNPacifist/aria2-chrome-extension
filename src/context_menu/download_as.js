@@ -11,7 +11,7 @@ angular
       var options = {
         out: $scope.name
       };
-      client.aria2.addUri([$scope.url], options, function(err, res) {
+      client.call.aria2.addUri([$scope.url], options, function(err, res) {
         if (err) {
           return Notification.showRpcError("Could not add download", err);
         }

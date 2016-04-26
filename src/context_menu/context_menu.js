@@ -6,7 +6,7 @@ function getDownloadedUrl() {
 require(['/common/init.js'], function(init) {
   var client = init.client;
   function download(target, tab) {
-    client.aria2.addUri([target.linkUrl || srcUrl], function(err, res) {
+    client.call.aria2.addUri([target.linkUrl || srcUrl], function(err, res) {
       if (err) {
         return Notification.showRpcError("Could not add download", err);
       }

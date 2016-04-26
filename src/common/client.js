@@ -10,15 +10,39 @@ define(['/libs/async.js'], function(async) {
 
   var SYSTEM_METHODS = ['multicall', 'listMethods'];
 
-  function createCallSynonym(requestName, checkThrottling) {
+  var SUBSCRIPTION_METHODS = [
+    'tellStatus', 'getUris', 'getFiles', 'getPeers', 'getServers', 'tellActive', 'tellWaiting', 'tellStopped',
+    'getOption', 'getGlobalOption', 'getGlobalStat', 'getVersion', 'getSessionInfo'
+  ];
+
+  function getShorthand(requestName, methodName) {
     return function() {
       var callback = arguments[arguments.length - 1];
       var params = [];
       for (var i = 0; i < arguments.length - 1; i++) {
         params.push(arguments[i]);
       }
-      this.call(requestName, params, callback);
+      return this[methodName](requestName, params, callback);
     }
+  }
+
+  function createShorthands(target) {
+    target.call = target.call.bind(target);
+    target.call.aria2 = {};
+    ARIA2_METHODS.forEach(function(name) {
+      target.call.aria2[name] = getShorthand('aria2.' + name, 'call').bind(target);
+    }.bind(target));
+
+    target.call.system = {};
+    SYSTEM_METHODS.forEach(function(name) {
+      target.call.system[name] = getShorthand('system.' + name, 'call').bind(target);
+    }.bind(target));
+
+    target.subscribe = target.subscribe.bind(target);
+    target.subscribe.aria2 = {};
+    SUBSCRIPTION_METHODS.forEach(function(name) {
+      target.subscribe.aria2[name] = getShorthand('aria2.' + name, 'subscribe').bind(target);
+    }.bind(target));
   }
 
   function Client(connection) {
@@ -27,20 +51,11 @@ define(['/libs/async.js'], function(async) {
       interval: 1000
     }
 
-    this.aria2 = {};
-    ARIA2_METHODS.forEach(function(name) {
-      this.aria2[name] = createCallSynonym('aria2.' + name, true).bind(this);
-    }.bind(this));
-
-    this.system = {};
-    SYSTEM_METHODS.forEach(function(name) {
-      this.system[name] = createCallSynonym('system.' + name, false).bind(this);
-    }.bind(this));
+    createShorthands(this);
 
     this._subscriptions = {};
     this._subscriptionsCounter = 0;
     this._lastUpdateTime = 0;
-
     this._update = this._update.bind(this);
     this._scheduleUpdate();
   }
@@ -52,7 +67,7 @@ define(['/libs/async.js'], function(async) {
     var failHandler = setTimeout(async.apply(finishCall, true), 3000);
     this._connection.get(success);
 
-    function finishCall(isTimedOut, client) {
+    function finishCall(isTimedOut, ariaClient) {
       if (isFinished) {
         console.error("Client call is finished twice");
         return;
@@ -63,7 +78,7 @@ define(['/libs/async.js'], function(async) {
         callback(new Error('No connection available'));
       } else {
         clearTimeout(failHandler);
-        client.call(requestName, params, callback);
+        ariaClient.call(requestName, params, callback);
       }
     };
   }
@@ -97,13 +112,13 @@ define(['/libs/async.js'], function(async) {
     if (keys.length == 0) {
       return this._scheduleUpdate();
     }
-    this._connection.get(function(client) {
+    this._connection.get(function(ariaClient) {
       var currentKeys = Object.keys(this._subscriptions);
       if (currentKeys.length == 0) {
         return this._scheduleUpdate();
       }
       var request = this._collectRequest(keys);
-      client.system.multicall(request, function(err, res) {
+      ariaClient.system.multicall(request, function(err, res) {
         if (err) {
           // TODO: log error
           return;
