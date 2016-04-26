@@ -1,4 +1,4 @@
-define(['./aria_client.js', './transport_creator.js'], function(AriaLib, TransportCreator) {
+define(['../libs/aria_client.js', './transport_creator.js'], function(AriaLib, TransportCreator) {
   function Connection() {
     this._client = null;
     this.state = this.STATE.idle;

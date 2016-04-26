@@ -1,4 +1,4 @@
-define(['/libs/async.js', './aria_client.js', './options.js'], function(async, AriaLib, Options) {
+define(['/libs/async.js', '../libs/aria_client.js', './options.js'], function(async, AriaLib, Options) {
   /**
    * Creates appropriate Aria2 client connection from options.
    */
