@@ -2,10 +2,9 @@ require.config({
   baseUrl: '/'
 });
 
-define(['./connection.js', './single_call.js', './subscription.js'], function(Connection, SingleCall, Subscription) {
+define(['./connection.js', './client.js'], function(Connection, Client) {
   var connection = new Connection();
   return {
-    SingleCallService: new SingleCall(connection),
-    SubscriptionService: new Subscription(connection)
+    client: new Client(connection),
   }
 });

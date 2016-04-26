@@ -4,9 +4,9 @@ function getDownloadedUrl() {
 }
 
 require(['/common/init.js'], function(init) {
-  var SingleCallService = init.SingleCallService;
+  var client = init.client;
   function download(target, tab) {
-    SingleCallService.aria2.addUri([target.linkUrl || srcUrl], function(err, res) {
+    client.aria2.addUri([target.linkUrl || srcUrl], function(err, res) {
       if (err) {
         return Notification.showRpcError("Could not add download", err);
       }
