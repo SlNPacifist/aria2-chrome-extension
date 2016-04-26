@@ -10,3 +10,14 @@ angular
       });
     });
   }]);
+
+require(['/common/init.js'],
+function(init) {
+  angular
+    .module('external', [])
+    .value('SubscriptionService', init.SubscriptionService);
+
+    angular.element(document).ready(function() {
+      angular.bootstrap(document, ['PopupApp']);
+    });
+});

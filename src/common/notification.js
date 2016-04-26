@@ -1,4 +1,4 @@
- window.Notification = (function() {
+define(function() {
   function showRpcError(message, error) {
     var options = {
       type: 'basic',
@@ -13,4 +13,4 @@
   return {
     showRpcError: showRpcError
   };
-})();
+});

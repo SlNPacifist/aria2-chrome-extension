@@ -1,5 +1,6 @@
-window.Subscription = (function() {
-  function Subscription() {
+define(function() {
+  function Subscription(connection) {
+    this._connection = connection;
     this._subscriptions = {};
     this._subscriptionsCounter = 0;
     this._lastUpdateTime = 0;
@@ -39,7 +40,7 @@ window.Subscription = (function() {
     if (keys.length == 0) {
       return this._scheduleUpdate();
     }
-    ConnectionService.get(function(client) {
+    this._connection.get(function(client) {
       var currentKeys = Object.keys(this._subscriptions);
       if (currentKeys.length == 0) {
         return this._scheduleUpdate();
@@ -78,6 +79,4 @@ window.Subscription = (function() {
   }
 
   return Subscription;
-})();
-
-window.SubscriptionService = new Subscription();
+});

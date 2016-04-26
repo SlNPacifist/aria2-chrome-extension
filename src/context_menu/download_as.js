@@ -16,6 +16,18 @@ angular
           return Notification.showRpcError("Could not add download", err);
         }
         console.log("Result of addUri", res);
-      }
+      });
     }
   }]);
+
+require(['/common/init.js', '/common/notification.js'],
+function(init, Notification) {
+  angular
+    .module('external', [])
+    .value('Notification', Notification)
+    .value('SingleCallService', init.SingleCallService)
+
+    angular.element(document).ready(function() {
+      angular.bootstrap(document, ['DownloadAsApp']);
+    });
+});

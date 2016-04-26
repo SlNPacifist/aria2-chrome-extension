@@ -16,13 +16,7 @@
 
   "background": {
     "scripts": [
-      "/libs/async.js",
-      "/common/options.js",
-      "/common/aria_client.js",
-      "/common/transport_creator.js",
-      "/common/connection.js",
-      "/common/single_call.js",
-      "/common/notification.js",
+      "/libs/require.js",
       "/context_menu/context_menu.js"
     ]
   },

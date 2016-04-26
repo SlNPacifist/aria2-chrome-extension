@@ -1,4 +1,4 @@
-window.TransportCreator = (function() {
+define(['/libs/async.js', './aria_client.js', './options.js'], function(async, AriaLib, Options) {
   /**
    * Creates appropriate Aria2 client connection from options.
    */
@@ -87,4 +87,4 @@ window.TransportCreator = (function() {
     fromOptions: fromOptions,
     fromCurrentOptions: fromCurrentOptions
   };
-})();
+});

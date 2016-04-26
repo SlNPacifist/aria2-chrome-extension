@@ -1,4 +1,4 @@
-window.SingleCall = (function() {
+define(['/libs/async.js'], function(async) {
   var ARIA2_METHODS = [
     'addUri', 'addTorrent', 'addMetalink', 'remove', 'forceRemove', 'pause', 'pauseAll', 'forcePause',
     'forcePauseAll', 'unpause', 'unpauseAll', 'tellStatus', 'getUris', 'getFiles', 'getPeers',
@@ -21,8 +21,9 @@ window.SingleCall = (function() {
     }
   }
 
-  function SingleCall() {
+  function SingleCall(connection) {
     var self = this;
+    this._connection = connection;
     this.aria2 = {};
     ARIA2_METHODS.forEach(function(name) {
       self.aria2[name] = createCallSynonym('aria2.' + name, true).bind(self);
@@ -36,9 +37,10 @@ window.SingleCall = (function() {
 
   SingleCall.prototype.call = function call(requestName, params, callback) {
     var isFinished = false;
+    var finishCall = finishCall.bind(this);
     var success = async.apply(finishCall, false);
     var failHandler = setTimeout(async.apply(finishCall, true), 3000);
-    ConnectionService.get(success);
+    this._connection.get(success);
 
     function finishCall(isTimedOut, client) {
       if (isFinished) {
@@ -47,16 +49,14 @@ window.SingleCall = (function() {
       }
       isFinished = true;
       if (isTimedOut) {
-        ConnectionService.revoke(success);
+        this._connection.revoke(success);
         callback(new Error('No connection available'));
       } else {
         clearTimeout(failHandler);
         client.call(requestName, params, callback);
       }
-    }
+    };
   }
 
   return SingleCall;
-})();
-
-window.SingleCallService = new SingleCall();
+});

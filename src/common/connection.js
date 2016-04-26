@@ -1,4 +1,4 @@
-window.Connection = (function() {
+define(['./aria_client.js', './transport_creator.js'], function(AriaLib, TransportCreator) {
   function Connection() {
     this._client = null;
     this.state = this.STATE.idle;
@@ -39,7 +39,7 @@ window.Connection = (function() {
   }
 
   Connection.prototype._connect = function connect() {
-    if (this._waitingConnection.length  == 0) {
+    if (this._waitingConnection.length == 0) {
       console.debug("No more pending requests for transport left, stopping conneciton process");
       this.state = this.STATE.idle;
       return;
@@ -81,6 +81,4 @@ window.Connection = (function() {
   }
 
   return Connection;
-})();
-
-window.ConnectionService = new Connection();
+});

@@ -28,3 +28,15 @@ angular
       checkOptions();
     }, true);
   }]);
+
+require(['/common/transport_creator.js', '/common/options.js'],
+function(TransportCreator, Options) {
+  angular
+    .module('external', [])
+    .value('TransportCreator', TransportCreator)
+    .value('options', Options)
+
+    angular.element(document).ready(function() {
+      angular.bootstrap(document, ['OptionsApp']);
+    });
+});

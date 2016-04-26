@@ -1,4 +1,4 @@
-window.Options = (function() {
+define(function() {
   function get() {
     if ('options' in localStorage) {
       return JSON.parse(localStorage['options'])
@@ -13,4 +13,4 @@ window.Options = (function() {
     get: get,
     set: set
   };
-})();
+});
