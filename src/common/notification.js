@@ -1,16 +1,27 @@
 define(function() {
-  function showRpcError(message, error) {
+  function showDownloadStartError(error) {
     var options = {
       type: 'basic',
-      iconUrl: 'webui-aria2/favicon.ico',
-      title: 'Rpc error',
-      message: message
+      iconUrl: '/webui-aria2/favicon.ico',
+      title: 'Download error',
+      message: 'Could not start download'
     }
     chrome.notifications.create(null, options);
-    console.error("Rpc error", message, error);
+    console.error("Download error", error);
+  }
+
+  function showDownloadStart() {
+    var options = {
+      type: 'basic',
+      iconUrl: '/webui-aria2/favicon.ico',
+      title: 'Download started',
+      message: 'Download started'
+    }
+    chrome.notifications.create(null, options);
   }
 
   return {
-    showRpcError: showRpcError
+    showDownloadStartError: showDownloadStartError,
+    showDownloadStart: showDownloadStart
   };
 });

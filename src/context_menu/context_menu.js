@@ -3,14 +3,15 @@ function getDownloadedUrl() {
   return downloadedUrl;
 }
 
-require(['/common/init.js'], function(init) {
+require(['/common/init.js', '/common/notification.js'], function(init, Notification) {
   var client = init.client;
   function download(target, tab) {
     client.call.aria2.addUri([target.linkUrl || srcUrl], function(err, res) {
       if (err) {
-        return Notification.showRpcError("Could not add download", err);
+        Notification.showDownloadStartError(err);
+      } else {
+        Notification.showDownloadStart();
       }
-      console.log("Result of addUri", err, res);
     });
   }
 

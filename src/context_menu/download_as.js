@@ -13,9 +13,12 @@ angular
       };
       client.call.aria2.addUri([$scope.url], options, function(err, res) {
         if (err) {
-          return Notification.showRpcError("Could not add download", err);
+          Notification.showDownloadStartError(err);
+        } else {
+          Notification.showDownloadStart();
+          // If window is closed immediately then notification is not shown
+          setTimeout(window.close.bind(window), 100);
         }
-        console.log("Result of addUri", res);
       });
     }
   }]);
