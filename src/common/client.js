@@ -57,7 +57,6 @@ define(['/libs/async.js'], function(async) {
     this._subscriptionsCounter = 0;
     this._lastUpdateTime = 0;
     this._update = this._update.bind(this);
-    this._scheduleUpdate();
   }
 
   Client.prototype.call = function call(requestName, params, callback) {
@@ -92,7 +91,12 @@ define(['/libs/async.js'], function(async) {
       callback: callback
     }
     this._subscriptionsCounter += 1;
+    this._scheduleUpdate();
     return id;
+  }
+
+  Client.prototype.unsubscribe = function unsubscribe(id) {
+    delete this._subscriptions[id];
   }
 
   Client.prototype._collectRequest = function collectRequest(keys) {
@@ -106,48 +110,75 @@ define(['/libs/async.js'], function(async) {
   }
 
   Client.prototype._update = function update() {
+    var self = this;
     this._lastUpdateTime = Date.now();
-    var keys = Object.keys(this._subscriptions);
-    console.debug("Performing subscriptions update for " + keys.length + " subscriptions");
-    if (keys.length == 0) {
-      return this._scheduleUpdate();
+    var currentKeys;
+
+    async.waterfall([
+      function(callback) {callback(getKeys().length == 0 ? true : null)},
+      getConnection,
+      makeRequest,
+      processResult
+    ], finishUpdate);
+
+    function getKeys() {
+      var keys = Object.keys(self._subscriptions);
+      console.debug("Performing subscriptions update for " + keys.length + " subscriptions");
+      return keys;
     }
-    this._connection.get(function(ariaClient) {
-      var currentKeys = Object.keys(this._subscriptions);
-      if (currentKeys.length == 0) {
-        return this._scheduleUpdate();
+
+    function getConnection(callback) {
+      self._connection.get(async.apply(callback, null));
+    }
+
+    function makeRequest(ariaClient, callback) {
+      var keys = getKeys();
+      if (keys.length == 0) {
+        return callback(true);
       }
-      var request = this._collectRequest(keys);
-      ariaClient.system.multicall(request, function(err, res) {
-        if (err) {
-          // TODO: log error
+      var request = self._collectRequest(keys);
+      currentKeys = keys;
+      ariaClient.system.multicall(request, callback);
+    }
+
+    function processResult(res, callback) {
+      res.forEach(function(curResult, index) {
+        var key = currentKeys[index];
+        var sub = self._subscriptions[key];
+        if (!Array.isArray(curResult)) {
+          if (sub) {
+            console.error("Subscription", sub.name, "got error", curResult);
+          } else {
+            console.error("Removed subscription got error", curResult);
+          }
+        }
+        if (!sub) {
           return;
         }
-        res.forEach(function(curResult, index) {
-          var key = currentKeys[index];
-          var sub = this._subscriptions[key];
-          if (!Array.isArray(curResult)) {
-            if (sub) {
-              console.error("Subscription", sub.name, "got error", curResult);
-            } else {
-              console.error("Removed subscription got error", curResult);
-            }
-          }
-          if (!sub) {
-            return;
-          }
-          sub.callback(curResult);
-        }.bind(this));
-        this._scheduleUpdate();
-      }.bind(this));
-    }.bind(this));
+        sub.callback(curResult);
+      });
+      callback(null);
+    }
+
+    function finishUpdate(err) {
+      self._updateTimeoutHandler = null;
+      self._scheduleUpdate();
+    }
   }
 
   Client.prototype._scheduleUpdate = function scheduleUpdate() {
+    if (this._updateTimeoutHandler) {
+      // Update has been scheduled or in process
+      return;
+    }
+    if (Object.keys(this._subscriptions).length == 0) {
+      // No active subscriptions
+      return;
+    }
     var nextUpdate = this._lastUpdateTime + this.options.interval;
     var delta = Math.max(0, nextUpdate - Date.now());
     console.debug("Scheduling update in " + delta + "ms");
-    setTimeout(this._update, delta);
+    this._updateTimeoutHandler = setTimeout(this._update, delta);
   }
 
   return Client;
